@@ -1,7 +1,12 @@
 SELECT
-	DADOS.*,
+	--DADOS.*,
+	IIF(DADOS.TURMA IS NULL, 'Integral', DADOS.TURMA) AS TURMA,
+	IIF(DADOS.MATRICULADOS2021 IS NULL, 0, DADOS.MATRICULADOS2021) AS Matriculados2021,
+	IIF(DADOS.MATRICULADOS2022 IS NULL, 0, DADOS.MATRICULADOS2022) AS MMATRICULADOS2022,
+	--DADOS.MATRICULADOS2022,
 	MC.META_2022,
-	CONCAT(CAST((CAST(DADOS.MATRICULADOS2022 AS DECIMAL) / CAST(MC.META_2022 AS DECIMAL)) * 100 AS DECIMAL (10,1)), '%')  AS '% META'
+	CONCAT(CAST((CAST(DADOS.MATRICULADOS2022 AS DECIMAL) / CAST(MC.META_2022 AS DECIMAL)) * 100 AS DECIMAL (10,1)), '%')  AS '% META',
+	'Data Comparativa' = FORMAT(DATEADD(YEAR, -1, GETDATE()), 'dd/MM/yyyy')
 FROM
 (
 	SELECT
@@ -11,32 +16,32 @@ FROM
 		TAB1.MATRICULADOS2022
 	FROM
 	(
-		SELECT DISTINCT
+		SELECT DISTINCT			
 			CASE 
-				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='Jardim I' THEN 'INTEGRAL'
-				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='Jardim II' THEN 'INTEGRAL'
-				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='Jardim III' THEN 'INTEGRAL'
-				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='MATERNAL' THEN 'INTEGRAL'
-				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='BERÇÁRIO' THEN 'BERÇARIO + GRUPO 1'
-				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='grupo 1' THEN 'BERÇARIO + GRUPO 1'
-				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='grupo 2' THEN 'GRUPO 2'
-				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='grupo 3' THEN 'GRUPO 3'
-				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='grupo 4' THEN 'GRUPO 4'
-				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='grupo 5' THEN 'GRUPO 5'
-				WHEN C.NOME ='Ensino Fundamental - 1º ao 5º ano ' AND H.NOME ='1º Ano' THEN 'ENS. FUND. I - 1º ANO '
-				WHEN C.NOME ='Ensino Fundamental - 1º ao 5º ano ' AND H.NOME ='2º Ano' THEN 'ENS. FUND. I - 2º ANO '
-				WHEN C.NOME ='Ensino Fundamental - 1º ao 5º ano ' AND H.NOME ='3º Ano' THEN 'ENS. FUND. I - 3º ANO '
-				WHEN C.NOME ='Ensino Fundamental - 1º ao 5º ano ' AND H.NOME ='4º Ano' THEN 'ENS. FUND. I - 4º ANO '
-				WHEN C.NOME ='Ensino Fundamental - 1º ao 5º ano ' AND H.NOME ='5º Ano' THEN 'ENS. FUND. I - 5º ANO '
-				WHEN C.NOME ='Ensino Fundamental - 6º ao 9º ano ' AND H.NOME ='6º Ano' THEN 'ENS. FUND. II - 6º ANO '
-				WHEN C.NOME ='Ensino Fundamental - 6º ao 9º ano ' AND H.NOME ='7º Ano' THEN 'ENS. FUND. II - 7º ANO '
-				WHEN C.NOME ='Ensino Fundamental - 6º ao 9º ano ' AND H.NOME ='8º Ano' THEN 'ENS. FUND. II - 8º ANO '
-				WHEN C.NOME ='Ensino Fundamental - 6º ao 9º ano ' AND H.NOME ='9º Ano' THEN 'ENS. FUND. II - 9º ANO '
-				WHEN C.NOME ='Ensino Médio '                      AND H.NOME ='1º Ano' THEN 'PRIMEIRO ANO'
-				WHEN C.NOME ='Ensino Médio '                      AND H.NOME ='2º Ano' THEN 'SEGUNDO ANO'
-				WHEN C.NOME ='Ensino Médio '                      AND H.NOME ='3º Ano' THEN 'TERCEIRO ANO'
-				WHEN C.NOME ='Ensino Médio '                      AND H.NOME ='3º Ano - Noturno ' THEN 'EXTENSIVO'
-				WHEN H.NOME = 'Extensivo' THEN 'EXTENSIVO'
+				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='Jardim I' THEN 'Integral'
+				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='Jardim II' THEN 'IntegralL'
+				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='Jardim III' THEN 'Integral'
+				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='MATERNAL' THEN 'Integral'
+				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='BERÇÁRIO' THEN 'Berçário + Grupo 1'
+				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='grupo 1' THEN 'Berçário + Grupo 1'
+				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='grupo 2' THEN 'Grupo 2'
+				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='grupo 3' THEN 'Grupo 3'
+				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='grupo 4' THEN 'Grupo 4'
+				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='grupo 5' THEN 'Grupo 5'
+				WHEN C.NOME ='Ensino Fundamental - 1º ao 5º ano ' AND H.NOME ='1º Ano' THEN 'Ens. Fund. I - 1º Ano '
+				WHEN C.NOME ='Ensino Fundamental - 1º ao 5º ano ' AND H.NOME ='2º Ano' THEN 'Ens. Fund. I - 2º Ano '
+				WHEN C.NOME ='Ensino Fundamental - 1º ao 5º ano ' AND H.NOME ='3º Ano' THEN 'Ens. Fund. I - 3º Ano '
+				WHEN C.NOME ='Ensino Fundamental - 1º ao 5º ano ' AND H.NOME ='4º Ano' THEN 'Ens. Fund. I - 4º Ano '
+				WHEN C.NOME ='Ensino Fundamental - 1º ao 5º ano ' AND H.NOME ='5º Ano' THEN 'Ens. Fund. I - 5º Ano '
+				WHEN C.NOME ='Ensino Fundamental - 6º ao 9º ano ' AND H.NOME ='6º Ano' THEN 'Ens. Fund. II - 6º Ano '
+				WHEN C.NOME ='Ensino Fundamental - 6º ao 9º ano ' AND H.NOME ='7º Ano' THEN 'Ens. Fund. II - 7º Ano '
+				WHEN C.NOME ='Ensino Fundamental - 6º ao 9º ano ' AND H.NOME ='8º Ano' THEN 'Ens. Fund. II - 8º Ano '
+				WHEN C.NOME ='Ensino Fundamental - 6º ao 9º ano ' AND H.NOME ='9º Ano' THEN 'Ens. Fund. II - 9º Ano '
+				WHEN C.NOME ='Ensino Médio '                      AND H.NOME ='1º Ano' THEN 'Primeiro Ano'
+				WHEN C.NOME ='Ensino Médio '                      AND H.NOME ='2º Ano' THEN 'Segundo Ano'
+				WHEN C.NOME ='Ensino Médio '                      AND H.NOME ='3º Ano' THEN 'Terceiro Ano'
+				WHEN C.NOME ='Ensino Médio '                      AND H.NOME ='3º Ano - Noturno ' THEN 'Extensivo'
+				WHEN H.NOME = 'Extensivo' THEN 'Extensivo'
 				ELSE H.NOME
 			END AS TURMA,
 			CASE 
@@ -113,28 +118,28 @@ FROM
 	(
 		SELECT DISTINCT
 			CASE 
-				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='Jardim I' THEN 'INTEGRAL'
-				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='Jardim II' THEN 'INTEGRAL'
-				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='Jardim III' THEN 'INTEGRAL'
-				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='MATERNAL' THEN 'INTEGRAL'
-				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='BERÇÁRIO' THEN 'BERÇARIO + GRUPO 1'
-				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='grupo 1' THEN 'BERÇARIO + GRUPO 1'
-				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='grupo 2' THEN 'GRUPO 2'
-				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='grupo 3' THEN 'GRUPO 3'
-				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='grupo 4' THEN 'GRUPO 4'
-				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='grupo 5' THEN 'GRUPO 5'
-				WHEN C.NOME ='Ensino Fundamental - 1º ao 5º ano ' AND H.NOME ='1º Ano' THEN 'ENS. FUND. I - 1º ANO '
-				WHEN C.NOME ='Ensino Fundamental - 1º ao 5º ano ' AND H.NOME ='2º Ano' THEN 'ENS. FUND. I - 2º ANO '
-				WHEN C.NOME ='Ensino Fundamental - 1º ao 5º ano ' AND H.NOME ='3º Ano' THEN 'ENS. FUND. I - 3º ANO '
-				WHEN C.NOME ='Ensino Fundamental - 1º ao 5º ano ' AND H.NOME ='4º Ano' THEN 'ENS. FUND. I - 4º ANO '
-				WHEN C.NOME ='Ensino Fundamental - 1º ao 5º ano ' AND H.NOME ='5º Ano' THEN 'ENS. FUND. I - 5º ANO '
-				WHEN C.NOME ='Ensino Fundamental - 6º ao 9º ano ' AND H.NOME ='6º Ano' THEN 'ENS. FUND. II - 6º ANO '
-				WHEN C.NOME ='Ensino Fundamental - 6º ao 9º ano ' AND H.NOME ='7º Ano' THEN 'ENS. FUND. II - 7º ANO '
-				WHEN C.NOME ='Ensino Fundamental - 6º ao 9º ano ' AND H.NOME ='8º Ano' THEN 'ENS. FUND. II - 8º ANO '
-				WHEN C.NOME ='Ensino Fundamental - 6º ao 9º ano ' AND H.NOME ='9º Ano' THEN 'ENS. FUND. II - 9º ANO '
-				WHEN C.NOME ='Ensino Médio '                      AND H.NOME ='1º Ano' THEN 'PRIMEIRO ANO'
-				WHEN C.NOME ='Ensino Médio '                      AND H.NOME ='2º Ano' THEN 'SEGUNDO ANO'
-				WHEN C.NOME ='Ensino Médio '                      AND H.NOME ='3º Ano' THEN 'TERCEIRO ANO'
+				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='Jardim I' THEN 'Integral'
+				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='Jardim II' THEN 'Integral'
+				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='Jardim III' THEN 'Integral'
+				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='MATERNAL' THEN 'Integral'
+				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='BERÇÁRIO' THEN 'Berçário + Grupo 1'
+				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='grupo 1' THEN 'Berçário + Grupo 1'
+				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='grupo 2' THEN 'Grupo 2'
+				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='grupo 3' THEN 'Grupo 3'
+				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='grupo 4' THEN 'Grupo 4'
+				WHEN C.NOME ='Educação Infantil'                  AND H.NOME ='grupo 5' THEN 'Grupo 5'
+				WHEN C.NOME ='Ensino Fundamental - 1º ao 5º ano ' AND H.NOME ='1º Ano' THEN 'Ens. Fund. I - 1º Ano '
+				WHEN C.NOME ='Ensino Fundamental - 1º ao 5º ano ' AND H.NOME ='2º Ano' THEN 'Ens. Fund. I - 2º Ano '
+				WHEN C.NOME ='Ensino Fundamental - 1º ao 5º ano ' AND H.NOME ='3º Ano' THEN 'Ens. Fund. I - 3º Ano '
+				WHEN C.NOME ='Ensino Fundamental - 1º ao 5º ano ' AND H.NOME ='4º Ano' THEN 'Ens. Fund. I - 4º Ano '
+				WHEN C.NOME ='Ensino Fundamental - 1º ao 5º ano ' AND H.NOME ='5º Ano' THEN 'Ens. Fund. I - 5º Ano '
+				WHEN C.NOME ='Ensino Fundamental - 6º ao 9º ano ' AND H.NOME ='6º Ano' THEN 'Ens. Fund. II - 6º Ano '
+				WHEN C.NOME ='Ensino Fundamental - 6º ao 9º ano ' AND H.NOME ='7º Ano' THEN 'Ens. Fund. II - 7º Ano '
+				WHEN C.NOME ='Ensino Fundamental - 6º ao 9º ano ' AND H.NOME ='8º Ano' THEN 'Ens. Fund. II - 8º Ano '
+				WHEN C.NOME ='Ensino Fundamental - 6º ao 9º ano ' AND H.NOME ='9º Ano' THEN 'Ens. Fund. II - 9º Ano '
+				WHEN C.NOME ='Ensino Médio '                      AND H.NOME ='1º Ano' THEN 'Primeiro Ano'
+				WHEN C.NOME ='Ensino Médio '                      AND H.NOME ='2º Ano' THEN 'Segundo Ano'
+				WHEN C.NOME ='Ensino Médio '                      AND H.NOME ='3º Ano' THEN 'Terceiro Ano'
 				WHEN C.NOME ='Ensino Médio '                      AND H.NOME ='3º Ano - Noturno ' THEN 'EXTENSIVO'
 				WHEN H.NOME = 'Extensivo' THEN 'EXTENSIVO'
 				WHEN H.NOME = 'Semi Extensivo' THEN 'EXTENSIVO'
@@ -217,7 +222,7 @@ GROUP BY
 	TAB1.CODTURMA,
 	TAB1.MATRICULADOS2022,
 	TAB2.MATRICULADOS2021) AS DADOS
-	JOIN INTDATA..META_MATRICULAS_COLEGIO AS MC
+	Right JOIN INTDATA..META_MATRICULAS_COLEGIO AS MC
 		ON MC.CODTURMA = DADOS.CODTURMA
 ORDER BY
 	DADOS.CODTURMA
